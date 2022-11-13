@@ -1,5 +1,3 @@
-// import { createStore } from 'redux'
-// import { combinedReducer } from './reducers'
 import { configureStore } from '@reduxjs/toolkit'
 import blogReducer from './reducers/blogReducer'
 import { notificationReducer } from './reducers/notificationReducer'

@@ -9,7 +9,7 @@ test('render title and author only by default', () => {
         title: 'jest test for react app',
         author: 'Jest test programmer',
         url: 'www.Jest.testing.library.com',
-        likes: 100
+        likes: 100,
     }
     // render(<Blog blog={blog} />)
 
@@ -23,19 +23,11 @@ test('render title and author only by default', () => {
     const halfBlog = container.querySelector('.halfBlog')
     const fullBlog = container.querySelector('.fullBlog')
 
-    expect(halfBlog).toHaveTextContent(
-        'jest test for react app'
-    )
-    expect(halfBlog).toHaveTextContent(
-        'Jest test programmer'
-    )
+    expect(halfBlog).toHaveTextContent('jest test for react app')
+    expect(halfBlog).toHaveTextContent('Jest test programmer')
 
-    expect(halfBlog).toHaveTextContent(
-        `${blog.title}`
-    )
-    expect(halfBlog).toHaveTextContent(
-        `${blog.author}`
-    )
+    expect(halfBlog).toHaveTextContent(`${blog.title}`)
+    expect(halfBlog).toHaveTextContent(`${blog.author}`)
 
     expect(fullBlog).not.toBeVisible()
 
@@ -47,7 +39,7 @@ test('click button to show details of a blog', async () => {
         title: 'jest test for react app',
         author: 'Jest test programmer',
         url: 'www.Jest.testing.library.com',
-        likes: 100
+        likes: 100,
     }
     const mocktoggleBlogVisible = jest.fn()
 
@@ -58,7 +50,6 @@ test('click button to show details of a blog', async () => {
     await user.click(buttonView)
 
     expect(mocktoggleBlogVisible.mock.calls).toHaveLength(1)
-
 })
 
 test.only('the event handler the component received as props is called twice, when the like button is clicked twice', async () => {
@@ -66,7 +57,7 @@ test.only('the event handler the component received as props is called twice, wh
         title: 'test event handler is called twice',
         author: 'Jest tester',
         url: 'when the like button is clicked twice.com',
-        likes: 100
+        likes: 100,
     }
     const mockClickButtonLikeFunc = jest.fn()
 
@@ -81,4 +72,3 @@ test.only('the event handler the component received as props is called twice, wh
 
     expect(mockClickButtonLikeFunc.mock.calls).toHaveLength(2)
 })
-

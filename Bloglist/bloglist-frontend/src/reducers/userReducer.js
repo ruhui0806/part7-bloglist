@@ -16,17 +16,6 @@ const userSlice = createSlice({
 })
 export const { setUser, logOut } = userSlice.actions
 
-// export const loginUser = (credentials) => {
-//     return async (dispatch) => {
-//         const user = await loginService.login(credentials)
-//         dispatch(setUser(user))
-//         console.log('login User:', user)
-//         const token = await blogService.setToken(user.token)
-//         dispatch(setToken(user.token))
-//         console.log('token:', user.token)
-//     }
-// }
-
 export const loginUser = ({ username, password }) => {
     return async (dispatch) => {
         const user = await loginService.login({
@@ -50,11 +39,3 @@ export const loggedUser = () => {
     }
 }
 export default userSlice.reducer
-
-// const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-// if (loggedUserJSON) {
-//     const user = JSON.parse(loggedUserJSON)
-//     dispatch(setUser(user))
-//     console.log(user)
-//     await blogService.setToken(user.token)
-// }
