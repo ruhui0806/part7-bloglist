@@ -1,0 +1,17 @@
+
+POST http://localhost:3003/api/blogList
+Content-Type: application/json
+
+{
+    "title": "First class tests",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    "likes": 20
+}
+
+###
+GET http://localhost:3003/api/blogList
+
+
+###
+DELETE http://localhost:3003/api/blogList/6184f68aca3668411edb1b67
