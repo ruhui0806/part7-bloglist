@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const blogRouter = require('./controllers/blogRouter')
 const userRouter = require('./controllers/userRouter')
 const loginRouter = require('./controllers/loginRouter')
+const commentRouter = require('./controllers/commentRouter')
 require('express-async-errors')
 const mongoUrl = config.MONGODB_URI
 mongoose
@@ -29,6 +30,7 @@ app.use('/', blogRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/blogs', blogRouter)
+app.use('/api/blogs', commentRouter)
 
 if (process.env.NODE_ENV === 'test') {
     const testingRouter = require('./controllers/testingRouter')

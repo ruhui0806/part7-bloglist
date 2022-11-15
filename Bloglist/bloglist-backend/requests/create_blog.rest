@@ -1,5 +1,4 @@
-
-POST http://localhost:3003/api/blogList
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
@@ -10,8 +9,8 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3003/api/blogList
+GET http://localhost:3003/api/blogs
 
 
 ###
-DELETE http://localhost:3003/api/blogList/6184f68aca3668411edb1b67
+DELETE http://localhost:3003/api/blogs/6184f68aca3668411edb1b67
