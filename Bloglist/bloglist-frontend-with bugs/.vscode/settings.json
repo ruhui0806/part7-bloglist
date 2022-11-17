@@ -1,8 +1,0 @@
-{
-    "css.completion.completePropertyWithSemicolon": false,
-    "less.completion.completePropertyWithSemicolon": false,
-    "scss.completion.completePropertyWithSemicolon": false,
-    "prettier.semi": false,
-    "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
-    "typescript.format.insertSpaceAfterSemicolonInForStatements": false
-}
