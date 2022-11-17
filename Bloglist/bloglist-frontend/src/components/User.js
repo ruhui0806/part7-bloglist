@@ -29,7 +29,9 @@ const User = ({ user }) => {
                         <tr key={blog.id}>
                             <td>
                                 {' '}
-                                <Link>{blog.title}</Link>
+                                <Link to={`/blogs/${blog.id}`}>
+                                    {blog.title}
+                                </Link>
                             </td>
                         </tr>
                     ))}
