@@ -1,12 +1,9 @@
-const { request } = require('../app')
 const Blog = require('../models/Blog')
 const Comment = require('../models/Comment')
 const commentRouter = require('express').Router()
 
 commentRouter.get('/:id', async (request, response) => {
-    const blogOwner = await Blog.findById(request.params.id).populate(
-        'comments'
-    )
+    const blogOwner = await Blog.findById(request.params.id)
     const comments = blogOwner.comments
     if (comments) {
         response.json(comments)
@@ -14,6 +11,15 @@ commentRouter.get('/:id', async (request, response) => {
         response.status(404).end()
     }
 })
+
+// commentRouter.get('/:id/comments', async (request, response) => {
+//     const comments = await Comment.find({}).populate('blog')
+//     if (comments) {
+//         response.json(comments)
+//     } else {
+//         response.status(404).end()
+//     }
+// })
 
 commentRouter.post('/:id/comments', async (request, response) => {
     const body = request.body

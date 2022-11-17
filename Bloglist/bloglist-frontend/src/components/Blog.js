@@ -32,9 +32,15 @@ const Blog = ({ blog, addLikes, removeBlog }) => {
             <p>added by username</p>
             <div>
                 <h3>comments</h3>
-                <ul>
-                    <li>comments to be installed</li>
-                </ul>
+                {/* <ul>
+                    <li>{blog.comments}</li>
+                </ul> */}
+                {blog.comments.map((comment) => (
+                    <div key={comment.id}>
+                        {/* <Link to={`/blogs/${blog.id}`}>{comment.content}</Link> */}
+                        <p>{comment.content}</p>
+                    </div>
+                ))}
             </div>
         </div>
     )

@@ -22,12 +22,15 @@ require('express-async-errors')
 // })
 ////refactor to async-await:
 blogRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({}).populate('user', 'username name')
+    const blogs = await Blog.find({})
+        .populate('user', { username: 1 })
+        .populate('comments')
+    // const blogs = await Blog.find({}).populate('user', 'username name')
     response.json(blogs)
 })
 
 blogRouter.get('/:id', async (request, response) => {
-    const blog = await Blog.findById(request.params.id)
+    const blog = await Blog.findById(request.params.id).populate('comments')
     if (blog) {
         response.json(blog)
     } else {
@@ -80,6 +83,7 @@ blogRouter.post('/', async (request, response) => {
         url: body.url,
         likes: body.likes === undefined ? 0 : body.likes,
         user: user._id,
+        comments: [],
     })
 
     const savedBlog = await blog.save()

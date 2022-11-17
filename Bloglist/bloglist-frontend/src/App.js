@@ -253,6 +253,7 @@ const App = () => {
                     path="/"
                     element={login === null ? LoginForms() : BlogsList()}
                 />
+                {/* <Route path="/blogs/:id/comments" element={<p>comment</p>} /> */}
             </Routes>
         </div>
     )
