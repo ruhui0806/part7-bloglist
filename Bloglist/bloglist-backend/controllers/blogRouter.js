@@ -1,8 +1,8 @@
 //express object has a Router() method that creates a new router object, which you can add middleware and HTTP methods to it just as app:
 const blogRouter = require('express').Router()
 const Blog = require('../models/Blog')
-const User = require("../models/User")
-const jwt = require("jsonwebtoken")
+const User = require('../models/User')
+const jwt = require('jsonwebtoken')
 require('express-async-errors')
 
 // blogRouter.get('/info', (request, response) => {
@@ -22,7 +22,7 @@ require('express-async-errors')
 // })
 ////refactor to async-await:
 blogRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({}).populate("user", "username name")
+    const blogs = await Blog.find({}).populate('user', 'username name')
     response.json(blogs)
 })
 
@@ -55,8 +55,6 @@ blogRouter.get('/:id', async (request, response) => {
 ////refactor to async-await:
 
 blogRouter.post('/', async (request, response) => {
-
-
     const body = request.body
 
     // const token = request.token
@@ -78,10 +76,10 @@ blogRouter.post('/', async (request, response) => {
 
     const blog = new Blog({
         title: body.title,
-        author: body.author === undefined ? "unknown" : body.author,
+        author: body.author === undefined ? 'unknown' : body.author,
         url: body.url,
         likes: body.likes === undefined ? 0 : body.likes,
-        user: user._id
+        user: user._id,
     })
 
     const savedBlog = await blog.save()
@@ -95,12 +93,11 @@ blogRouter.post('/', async (request, response) => {
 //     response.status(204).end()
 // })
 
-blogRouter.delete("/:id", async (request, response) => {
+blogRouter.delete('/:id', async (request, response) => {
     // // const body = request.body
-    console.log('bleep bloop');
+    console.log('bleep bloop')
     const token = request.token
     const decodedToken = jwt.verify(token, process.env.SECRET)
-
 
     const userOwner = await User.findById(decodedToken.id)
 
@@ -127,30 +124,27 @@ blogRouter.delete("/:id", async (request, response) => {
     //     }
     // }
     else {
-        console.log('-->', userOwner._id.toString());
-        console.log('-->', blog.user._id.toString());
-        return response.status(401).json({ error: "unauthorized action:token missing or invalid" })
+        console.log('-->', userOwner._id.toString())
+        console.log('-->', blog.user._id.toString())
+        return response
+            .status(401)
+            .json({ error: 'unauthorized action:token missing or invalid' })
     }
-
-
-
-
 })
 
-blogRouter.put("/:id", async (request, response) => {
+blogRouter.put('/:id', async (request, response) => {
     const body = request.body
     const blog = {
         title: body.title,
         author: body.author,
         url: body.url,
-        likes: body.likes
+        likes: body.likes,
     }
 
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
+        new: true,
+    })
     response.json(updatedBlog.toJSON())
 })
 
-
 module.exports = blogRouter
-
-
