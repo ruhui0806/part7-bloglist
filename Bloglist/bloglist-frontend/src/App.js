@@ -243,6 +243,7 @@ const App = () => {
                                 blog={matchedBlog}
                                 addLikes={() => updateLikes(matchedBlog.id)}
                                 removeBlog={() => removeBlogof(matchedBlog.id)}
+                                setBlogs={dispatch(initializeBlogs())}
                             />
                         ) : (
                             <Navigate replace to="/" />
