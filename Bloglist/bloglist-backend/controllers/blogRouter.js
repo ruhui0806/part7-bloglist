@@ -60,17 +60,6 @@ blogRouter.get('/:id', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
     const body = request.body
 
-    // const token = request.token
-    // const decodedToken = jwt.verify(token, process.env.SECRET)
-    // if (!token || !decodedToken.id) {
-    //     return response.status(401).json({ error: 'token missing or invalid' })
-    // }
-
-    // else if (body.title === undefined || body.url === undefined) {
-    //     return response.status(400).json({ error: 'content missing' })
-    // }
-
-    // const user = await User.findById(decodedToken.id)
     if (body.title === undefined || body.url === undefined) {
         return response.status(400).json({ error: 'content missing' })
     }
@@ -92,11 +81,6 @@ blogRouter.post('/', async (request, response) => {
     response.json(savedBlog.toJSON())
 })
 
-// blogRouter.delete("/:id", async (request, response) => {
-//     await Blog.findByIdAndRemove(request.params.id)
-//     response.status(204).end()
-// })
-
 blogRouter.delete('/:id', async (request, response) => {
     // // const body = request.body
     console.log('bleep bloop')
@@ -104,8 +88,6 @@ blogRouter.delete('/:id', async (request, response) => {
     const decodedToken = jwt.verify(token, process.env.SECRET)
 
     const userOwner = await User.findById(decodedToken.id)
-
-    // const userOwner = request.user
 
     const blog = await Blog.findById(request.params.id)
 
@@ -117,17 +99,7 @@ blogRouter.delete('/:id', async (request, response) => {
         } catch (exception) {
             next(exception)
         }
-    }
-    // if (userOwner._id) {
-    //     // await Blog.findByIdAndRemove(request.params.id)
-    //     try {
-    //         await Blog.deleteOne(blog)
-    //         response.status(204).end()
-    //     } catch (exception) {
-    //         next(exception)
-    //     }
-    // }
-    else {
+    } else {
         console.log('-->', userOwner._id.toString())
         console.log('-->', blog.user._id.toString())
         return response
