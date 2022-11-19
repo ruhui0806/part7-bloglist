@@ -67,19 +67,16 @@ const App = () => {
 
         try {
             dispatch(loginUser({ username, password }))
-            if (login) {
-                console.log('bleep bloop 3')
-                setUsername('')
-                setPassword('')
-                setStyle(styleGreen)
-                dispatch(setMessage('successfully'))
-                console.log('bleep bloop 4')
-                setTimeout(() => {
-                    dispatch(setMessage(null))
-                }, 5000)
-            } else {
-                throw new Error('error')
-            }
+
+            console.log('bleep bloop 3')
+            setUsername('')
+            setPassword('')
+            setStyle(styleGreen)
+            dispatch(setMessage('successfully'))
+            console.log('bleep bloop 4')
+            setTimeout(() => {
+                dispatch(setMessage(null))
+            }, 5000)
         } catch (error) {
             setStyle(styleRed)
             dispatch(setMessage('Wrong username or password'))
