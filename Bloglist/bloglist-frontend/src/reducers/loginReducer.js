@@ -22,9 +22,16 @@ export const loginUser = ({ username, password }) => {
             username,
             password,
         })
-        dispatch(setUser(user))
-        blogService.setToken(user.token)
-        window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+        if (user) {
+            dispatch(setUser(user))
+            blogService.setToken(user.token)
+            console.log('bleep bloop 1')
+            window.localStorage.setItem(
+                'loggedBlogappUser',
+                JSON.stringify(user)
+            )
+            console.log('bleep bloop 2')
+        }
     }
 }
 export const loggedUser = () => {

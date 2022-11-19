@@ -64,16 +64,24 @@ const App = () => {
     }
     const handleLogin = async (event) => {
         event.preventDefault()
+
         try {
             dispatch(loginUser({ username, password }))
-            setUsername('')
-            setPassword('')
-            setStyle(styleGreen)
-            dispatch(setMessage('successfully'))
-            setTimeout(() => {
-                dispatch(setMessage(null))
-            }, 5000)
-        } catch (exception) {
+            if (login) {
+                console.log('bleep bloop 3')
+                setUsername('')
+                setPassword('')
+                setStyle(styleGreen)
+                dispatch(setMessage('successfully'))
+                console.log('bleep bloop 4')
+                setTimeout(() => {
+                    dispatch(setMessage(null))
+                }, 5000)
+            } else {
+                throw new Error('error')
+            }
+        } catch (error) {
+            setStyle(styleRed)
             dispatch(setMessage('Wrong username or password'))
             setTimeout(() => {
                 dispatch(setMessage(null))
