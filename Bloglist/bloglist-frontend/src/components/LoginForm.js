@@ -2,6 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+const Button = styled.button`
+    background: palevioletred;
+    color: white;
+    border-radius: 3px;
+    border: 2px solid palevioletred;
+    margin: 0 1em;
+    padding: 0.25em 1em;
+`
 const LoginForm = ({
     onSubmit,
     username,
@@ -9,14 +17,6 @@ const LoginForm = ({
     handleUsernameChange,
     handlePasswordChange,
 }) => {
-    const Button = styled.button`
-        background: transparent;
-        border-radius: 3px;
-        border: 2px solid palevioletred;
-        color: palevioletred;
-        margin: 0 1em;
-        padding: 0.25em 1em;
-    `
     return (
         <form id="login-form" onSubmit={onSubmit}>
             <div>

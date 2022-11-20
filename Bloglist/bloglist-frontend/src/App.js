@@ -5,6 +5,7 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { useSelector, useDispatch } from 'react-redux'
+import styled from 'styled-components'
 import { setMessage } from './reducers/notificationReducer'
 import {
     initializeBlogs,
@@ -27,6 +28,8 @@ import {
 import { setUsers, initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
 import Users from './components/Users'
+import loginService from './services/login'
+import blogService from './services/blogs'
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -47,7 +50,13 @@ const App = () => {
         dispatch(initializeUsers())
         dispatch(loggedUser())
     }, [dispatch])
-
+    const blogStyle = {
+        paddingTop: 10,
+        paddingLeft: 2,
+        border: 'solid',
+        borderWidth: 1,
+        marginBottom: 5,
+    }
     const styleRed = {
         color: 'red',
         borderStyle: 'solid',
@@ -62,23 +71,66 @@ const App = () => {
         background: 'lightgray',
         fontSize: 20,
     }
+    const Button = styled.button`
+        background: transparent;
+        border-radius: 3px;
+        border: 2px solid palevioletred;
+        color: palevioletred;
+        margin: 0.5em 1em;
+        padding: 0.25em 1em;
+    `
+    // const handleLogin = async (event) => {
+    //     event.preventDefault()
+
+    //     try {
+    //         dispatch(loginUser({ username, password }))
+
+    //         console.log('bleep bloop 3')
+    //         setUsername('')
+    //         setPassword('')
+    //         setStyle(styleGreen)
+    //         dispatch(setMessage('successfully'))
+    //         console.log('bleep bloop 4')
+    //         setTimeout(() => {
+    //             dispatch(setMessage(null))
+    //         }, 5000)
+    //     } catch (error) {
+    //         setStyle(styleRed)
+    //         dispatch(setMessage('Wrong username or password'))
+    //         setTimeout(() => {
+    //             dispatch(setMessage(null))
+    //         }, 5000)
+    //     }
+    // }
+
     const handleLogin = async (event) => {
         event.preventDefault()
 
         try {
-            dispatch(loginUser({ username, password }))
+            const user = await loginService.login({
+                username,
+                password,
+            })
 
-            console.log('bleep bloop 3')
+            dispatch(setUser(user))
+            blogService.setToken(user.token)
+            console.log('bleep bloop 1')
+            window.localStorage.setItem(
+                'loggedBlogappUser',
+                JSON.stringify(user)
+            )
+            console.log('bleep bloop 2')
             setUsername('')
             setPassword('')
             setStyle(styleGreen)
             dispatch(setMessage('successfully'))
-            console.log('bleep bloop 4')
+            console.log('bleep bloop 3')
             setTimeout(() => {
                 dispatch(setMessage(null))
             }, 5000)
         } catch (error) {
             setStyle(styleRed)
+            console.log('bleep bloop 4')
             dispatch(setMessage('Wrong username or password'))
             setTimeout(() => {
                 dispatch(setMessage(null))
@@ -126,41 +178,39 @@ const App = () => {
     const SortBlogbyLikes = (a, b) => {
         return b.likes - a.likes
     }
-    const LoginForms = () => (
-        <>
-            <h2>log in to application</h2>
-            <div style={{ display: loginVisible ? 'none' : '' }}>
-                <button
-                    id="click-to-login"
-                    onClick={() => setLoginVisible(true)}
-                >
-                    Click to login
-                </button>
-            </div>
-            <Notification message={message} style={style} />
-            <div style={{ display: loginVisible ? '' : 'none' }}>
-                <LoginForm
-                    onSubmit={handleLogin}
-                    username={username}
-                    password={password}
-                    handleUsernameChange={(event) =>
-                        setUsername(event.target.value)
-                    }
-                    handlePasswordChange={({ target }) =>
-                        setPassword(target.value)
-                    }
-                />
-                <button onClick={() => setLoginVisible(false)}>Cancel</button>
-            </div>
-        </>
-    )
-    const blogStyle = {
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: 'solid',
-        borderWidth: 1,
-        marginBottom: 5,
+    const LoginForms = () => {
+        return (
+            <>
+                <h2>log in to application</h2>
+                <div style={{ display: loginVisible ? 'none' : '' }}>
+                    <Button
+                        id="click-to-login"
+                        onClick={() => setLoginVisible(true)}
+                    >
+                        Click to login
+                    </Button>
+                </div>
+                <Notification message={message} style={style} />
+                <div style={{ display: loginVisible ? '' : 'none' }}>
+                    <LoginForm
+                        onSubmit={handleLogin}
+                        username={username}
+                        password={password}
+                        handleUsernameChange={(event) =>
+                            setUsername(event.target.value)
+                        }
+                        handlePasswordChange={({ target }) =>
+                            setPassword(target.value)
+                        }
+                    />
+                    <Button onClick={() => setLoginVisible(false)}>
+                        Cancel
+                    </Button>
+                </div>
+            </>
+        )
     }
+
     const BlogsList = () => (
         <div>
             <Notification message={message} style={style} />
@@ -168,7 +218,7 @@ const App = () => {
             {/* <button onClick={handleLogout}>log out</button> */}
             <br />
             <div style={{ display: blogVisible ? 'none' : '' }}>
-                <button onClick={() => setBlogVisible(true)}>new blog</button>
+                <Button onClick={() => setBlogVisible(true)}>new blog</Button>
             </div>
 
             <div style={{ display: blogVisible ? '' : 'none' }}>
@@ -177,7 +227,7 @@ const App = () => {
                     handleSubmit={addBlog}
                     handleNotification={addBlogNotification}
                 />
-                <button onClick={() => setBlogVisible(false)}>Cancel</button>
+                <Button onClick={() => setBlogVisible(false)}>Cancel</Button>
             </div>
 
             {[...blogs].sort(SortBlogbyLikes).map((blog) => (
