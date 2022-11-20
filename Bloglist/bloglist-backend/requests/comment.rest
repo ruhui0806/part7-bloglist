@@ -1,11 +1,11 @@
 
-GET http://localhost:3003/api/blogs/637665501ac3e091ac8d83d9
+GET http://localhost:3003/api/blogs/637695af625af66ce171844a
 
 ###
 
-POST http://localhost:3003/api/blogs/637665501ac3e091ac8d83d9/comments
+POST http://localhost:3003/api/blogs/637695af625af66ce171844a/comments
 Content-Type: application/json
 
 {
-    "content": "comment for test01 tests"
+    "content": "comment for test02 bleep bloop"
 }
