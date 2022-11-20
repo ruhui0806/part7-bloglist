@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Table from 'react-bootstrap/Table'
+import { Button } from 'react-bootstrap'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -71,31 +72,30 @@ const App = () => {
         background: 'lightgray',
         fontSize: 20,
     }
-    const Button = styled.button`
-        background: transparent;
-        border-radius: 3px;
-        border: 2px solid palevioletred;
-        color: palevioletred;
-        margin: 0.5em 1em;
-        padding: 0.25em 1em;
-    `
+    // const Button = styled.button`
+    //     background: transparent;
+    //     border-radius: 3px;
+    //     border: 2px solid palevioletred;
+    //     color: palevioletred;
+    //     margin: 0.5em 1em;
+    //     padding: 0.25em 1em;
+    // `
     // const handleLogin = async (event) => {
     //     event.preventDefault()
 
     //     try {
     //         dispatch(loginUser({ username, password }))
-
-    //         console.log('bleep bloop 3')
     //         setUsername('')
     //         setPassword('')
     //         setStyle(styleGreen)
     //         dispatch(setMessage('successfully'))
-    //         console.log('bleep bloop 4')
+    //         console.log('bleep bloop 3')
     //         setTimeout(() => {
     //             dispatch(setMessage(null))
     //         }, 5000)
     //     } catch (error) {
     //         setStyle(styleRed)
+    //         console.log('bleep bloop 4')
     //         dispatch(setMessage('Wrong username or password'))
     //         setTimeout(() => {
     //             dispatch(setMessage(null))
@@ -123,7 +123,7 @@ const App = () => {
             setUsername('')
             setPassword('')
             setStyle(styleGreen)
-            dispatch(setMessage('successfully'))
+            dispatch(setMessage(`${user.username} logged in successfully`))
             console.log('bleep bloop 3')
             setTimeout(() => {
                 dispatch(setMessage(null))
@@ -271,7 +271,7 @@ const App = () => {
                     <em>
                         {' '}
                         {login.name} logged in
-                        <button onClick={handleLogout}>log out</button>
+                        <Button onClick={handleLogout}>log out</Button>
                     </em>
                 ) : null}
             </div>
@@ -279,11 +279,15 @@ const App = () => {
                 <Route
                     path="/users"
                     element={
-                        <Users
-                            login={login}
-                            handleLogout={handleLogout}
-                            usersList={usersList}
-                        />
+                        login ? (
+                            <Users
+                                login={login}
+                                handleLogout={handleLogout}
+                                usersList={usersList}
+                            />
+                        ) : (
+                            <Navigate replace to="/" />
+                        )
                     }
                 />
                 <Route
