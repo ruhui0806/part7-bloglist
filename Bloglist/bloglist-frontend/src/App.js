@@ -72,36 +72,6 @@ const App = () => {
         background: 'lightgray',
         fontSize: 20,
     }
-    // const Button = styled.button`
-    //     background: transparent;
-    //     border-radius: 3px;
-    //     border: 2px solid palevioletred;
-    //     color: palevioletred;
-    //     margin: 0.5em 1em;
-    //     padding: 0.25em 1em;
-    // `
-    // const handleLogin = async (event) => {
-    //     event.preventDefault()
-
-    //     try {
-    //         dispatch(loginUser({ username, password }))
-    //         setUsername('')
-    //         setPassword('')
-    //         setStyle(styleGreen)
-    //         dispatch(setMessage('successfully'))
-    //         console.log('bleep bloop 3')
-    //         setTimeout(() => {
-    //             dispatch(setMessage(null))
-    //         }, 5000)
-    //     } catch (error) {
-    //         setStyle(styleRed)
-    //         console.log('bleep bloop 4')
-    //         dispatch(setMessage('Wrong username or password'))
-    //         setTimeout(() => {
-    //             dispatch(setMessage(null))
-    //         }, 5000)
-    //     }
-    // }
 
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -114,23 +84,23 @@ const App = () => {
 
             dispatch(setUser(user))
             blogService.setToken(user.token)
-            console.log('bleep bloop 1')
+
             window.localStorage.setItem(
                 'loggedBlogappUser',
                 JSON.stringify(user)
             )
-            console.log('bleep bloop 2')
+
             setUsername('')
             setPassword('')
             setStyle(styleGreen)
             dispatch(setMessage(`${user.username} logged in successfully`))
-            console.log('bleep bloop 3')
+
             setTimeout(() => {
                 dispatch(setMessage(null))
             }, 5000)
         } catch (error) {
             setStyle(styleRed)
-            console.log('bleep bloop 4')
+
             dispatch(setMessage('Wrong username or password'))
             setTimeout(() => {
                 dispatch(setMessage(null))
@@ -249,8 +219,6 @@ const App = () => {
                   String(matchedUser.id) === String(matchU.params.id)
           )
         : null
-    // console.log(usersList)
-    // console.log(matchedUser)
 
     const matchB = useMatch('/blogs/:id')
     const matchedBlog = matchB
@@ -261,16 +229,20 @@ const App = () => {
         : null
 
     return (
-        <div>
-            <h3>blogs</h3>
+        <div className="container">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary d-flex">
+                <h3 className="navbar-brand">Blogs</h3>
+                <div>
+                    <Link to="/users"> Users</Link>
+                    <i> </i>
+                    <Link to="/"> Blogs</Link>
+                </div>
+            </nav>
             <div>
-                <Link to="/users"> Users</Link>
-                <i> </i>
-                <Link to="/"> Blogs</Link>
                 {login ? (
                     <em>
                         {' '}
-                        {login.name} logged in
+                        {login.name} logged in{' '}
                         <Button onClick={handleLogout}>log out</Button>
                     </em>
                 ) : null}

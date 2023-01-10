@@ -22,12 +22,11 @@ export const loginUser = (credentials) => {
         if (user) {
             dispatch(setUser(user))
             blogService.setToken(user.token)
-            console.log('bleep bloop 1')
+
             window.localStorage.setItem(
                 'loggedBlogappUser',
                 JSON.stringify(user)
             )
-            console.log('bleep bloop 2')
         }
     }
 }
@@ -36,7 +35,6 @@ export const loggedUser = () => {
     return async (dispatch) => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
         if (loggedUserJSON) {
-            console.log('loggedUserJSON: ', loggedUserJSON)
             const user = JSON.parse(loggedUserJSON)
             dispatch(setUser(user))
             blogService.setToken(user.token)

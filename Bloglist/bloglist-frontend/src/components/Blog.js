@@ -33,15 +33,23 @@ const Blog = ({ blog, addLikes, removeBlog, setBlogs }) => {
     }
     return (
         <div>
-            <h3> {blog.title}</h3>
+            <h3>Title: {blog.title}</h3>
 
-            <div>{blog.url}</div>
+            <h4> URL: {blog.url}</h4>
             <div>
-                {blog.likes}{' '}
-                <button id="like-button" onClick={addLikes}>
+                Likes: {blog.likes}{' '}
+                <button
+                    id="like-button"
+                    onClick={addLikes}
+                    className="btn btn-primary"
+                >
                     like
                 </button>
-                <button id="delete-button" onClick={removeBlog}>
+                <button
+                    id="delete-button"
+                    onClick={removeBlog}
+                    className="btn btn-danger"
+                >
                     Remove
                 </button>
             </div>
