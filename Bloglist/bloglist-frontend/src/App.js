@@ -192,12 +192,17 @@ const App = () => {
             </div>
 
             <div style={{ display: blogVisible ? '' : 'none' }}>
-                <h3>create new</h3>
+                <h3>Create new</h3>
                 <BlogForm
                     handleSubmit={addBlog}
                     handleNotification={addBlogNotification}
                 />
-                <Button onClick={() => setBlogVisible(false)}>Cancel</Button>
+                <Button
+                    onClick={() => setBlogVisible(false)}
+                    className="btn btn-secondary"
+                >
+                    Cancel
+                </Button>
             </div>
 
             {[...blogs].sort(SortBlogbyLikes).map((blog) => (

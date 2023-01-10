@@ -54,7 +54,7 @@ const BlogForm = ({ handleSubmit, handleNotification }) => {
                 />{' '}
             </div>
             <br />
-            <button id="create-blog" type="submit">
+            <button id="create-blog" type="submit" className="btn btn-success">
                 {' '}
                 Create new blog{' '}
             </button>
