@@ -11,7 +11,7 @@ import {
     useMatch,
 } from 'react-router-dom'
 import blogService from '../services/blogs'
-const Blog = ({ blog, addLikes, removeBlog, setBlogs }) => {
+const Blog = ({ blog, addLikes, removeBlog, setBlogs, login }) => {
     if (!blog) {
         return null
     }
@@ -52,13 +52,20 @@ const Blog = ({ blog, addLikes, removeBlog, setBlogs }) => {
                 >
                     Remove
                 </button>
+                <Link
+                    id="back-button"
+                    className="btn btn-light d-inline ms-auto"
+                    to="/"
+                >
+                    Back
+                </Link>
             </div>
-            <p>added by username</p>
+            <p>Added by {login.name}</p>
             <div>
-                <h3>comments</h3>
+                <h3>Comments</h3>
                 <form onSubmit={() => addNewComment(event, blog.id)}>
                     <input value={newComment} onChange={handleCommentChange} />
-                    <button type="submit">add comment</button>
+                    <button type="submit">Add comment</button>
                 </form>
                 {blog.comments.map((comment) => (
                     <div key={comment.id}>

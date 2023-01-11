@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import logo from './logo.png'
 import Table from 'react-bootstrap/Table'
 import { Button } from 'react-bootstrap'
 import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { setMessage } from './reducers/notificationReducer'
+import { BsPeopleFill } from 'react-icons/bs'
+import { IoMdDocument } from 'react-icons/io'
 import {
     initializeBlogs,
     setBlogs,
@@ -148,73 +152,6 @@ const App = () => {
     const SortBlogbyLikes = (a, b) => {
         return b.likes - a.likes
     }
-    const LoginForms = () => {
-        return (
-            <>
-                <h2>log in to application</h2>
-                <div style={{ display: loginVisible ? 'none' : '' }}>
-                    <Button
-                        id="click-to-login"
-                        onClick={() => setLoginVisible(true)}
-                    >
-                        Click to login
-                    </Button>
-                </div>
-                <Notification message={message} style={style} />
-                <div style={{ display: loginVisible ? '' : 'none' }}>
-                    <LoginForm
-                        onSubmit={handleLogin}
-                        username={username}
-                        password={password}
-                        handleUsernameChange={(event) =>
-                            setUsername(event.target.value)
-                        }
-                        handlePasswordChange={({ target }) =>
-                            setPassword(target.value)
-                        }
-                    />
-                    <Button onClick={() => setLoginVisible(false)}>
-                        Cancel
-                    </Button>
-                </div>
-            </>
-        )
-    }
-
-    const BlogsList = () => (
-        <div>
-            <Notification message={message} style={style} />
-
-            {/* <button onClick={handleLogout}>log out</button> */}
-            <br />
-            <div style={{ display: blogVisible ? 'none' : '' }}>
-                <Button onClick={() => setBlogVisible(true)}>new blog</Button>
-            </div>
-
-            <div style={{ display: blogVisible ? '' : 'none' }}>
-                <h3>Create new</h3>
-                <BlogForm
-                    handleSubmit={addBlog}
-                    handleNotification={addBlogNotification}
-                />
-                <Button
-                    onClick={() => setBlogVisible(false)}
-                    className="btn btn-secondary"
-                >
-                    Cancel
-                </Button>
-            </div>
-
-            {[...blogs].sort(SortBlogbyLikes).map((blog) => (
-                <div key={blog.id} style={blogStyle}>
-                    <div>
-                        {' '}
-                        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-                    </div>
-                </div>
-            ))}
-        </div>
-    )
 
     const matchU = useMatch('/users/:id')
 
@@ -235,23 +172,35 @@ const App = () => {
 
     return (
         <div className="container">
-            <nav className="navbar navbar-expand-lg bg-body-tertiary d-flex">
-                <h3 className="navbar-brand">Blogs</h3>
-                <div>
-                    <Link to="/users"> Users</Link>
-                    <i> </i>
-                    <Link to="/"> Blogs</Link>
-                </div>
+            <nav className="navbar mb-4 p-0 d-flex justify-content-center">
+                <img src={logo} alt="logo" className="mr-2 navbar-brand" />
             </nav>
-            <div>
-                {login ? (
-                    <em>
-                        {' '}
-                        {login.name} logged in{' '}
-                        <Button onClick={handleLogout}>log out</Button>
-                    </em>
-                ) : null}
+            <div className="d-flex gap-3 mb-4">
+                <Link
+                    to="/users"
+                    className="btn btn-primary p1-1 d-flex align-items-center"
+                >
+                    <BsPeopleFill className="icon m-1" /> Users
+                </Link>
+                <i> </i>
+                <Link
+                    to="/"
+                    className="btn btn-primary d-flex align-items-center"
+                >
+                    <IoMdDocument className="icon m-1" />
+                    Blogs
+                </Link>
+                <div className="d-inline ms-auto">
+                    {login ? (
+                        <em>
+                            {' '}
+                            {login.name} logged in{' '}
+                            <Button onClick={handleLogout}>Log out</Button>
+                        </em>
+                    ) : null}
+                </div>
             </div>
+            <hr />
             <Routes>
                 <Route
                     path="/users"
@@ -280,6 +229,7 @@ const App = () => {
                                 addLikes={() => updateLikes(matchedBlog.id)}
                                 removeBlog={() => removeBlogof(matchedBlog.id)}
                                 setBlogs={dispatch(initializeBlogs())}
+                                login={login}
                             />
                         ) : (
                             <Navigate replace to="/" />
@@ -288,7 +238,37 @@ const App = () => {
                 />
                 <Route
                     path="/"
-                    element={login === null ? LoginForms() : BlogsList()}
+                    element={
+                        login === null ? (
+                            <LoginForm
+                                onSubmit={handleLogin}
+                                username={username}
+                                password={password}
+                                handleUsernameChange={(event) =>
+                                    setUsername(event.target.value)
+                                }
+                                handlePasswordChange={({ target }) =>
+                                    setPassword(target.value)
+                                }
+                                loginVisible={loginVisible}
+                                setLoginVisible={setLoginVisible}
+                                message={message}
+                                style={style}
+                            />
+                        ) : (
+                            <BlogList
+                                message={message}
+                                style={style}
+                                blogVisible={blogVisible}
+                                setBlogVisible={setBlogVisible}
+                                addBlog={addBlog}
+                                addBlogNotification={addBlogNotification}
+                                SortBlogbyLikes={SortBlogbyLikes}
+                                blogStyle={blogStyle}
+                                blogs={blogs}
+                            />
+                        )
+                    }
                 />
             </Routes>
         </div>
