@@ -23,7 +23,7 @@ const LoginForm = ({
 }) => {
     return (
         <div>
-            <h2>log in to application</h2>
+            <h2>Log in to application</h2>
             <div style={{ display: loginVisible ? 'none' : '' }}>
                 <Button
                     id="click-to-login"
@@ -35,35 +35,51 @@ const LoginForm = ({
             <Notification message={message} style={style} />
             <div style={{ display: loginVisible ? '' : 'none' }}>
                 <form id="login-form" onSubmit={onSubmit}>
-                    <div>
-                        Username
-                        <input
-                            id="username"
-                            type="text"
-                            value={username}
-                            name="Username"
-                            onChange={handleUsernameChange}
-                        />
+                    <div className="row g-3 align-items-center my-4">
+                        <div className="col-auto">
+                            <label className="col-form-label">Username</label>
+                        </div>
+
+                        <div className="col-auto">
+                            <input
+                                id="username"
+                                className="form-control"
+                                type="text"
+                                value={username}
+                                name="Username"
+                                onChange={handleUsernameChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        Password
-                        <input
-                            id="password"
-                            type="password"
-                            value={password}
-                            name="Password"
-                            onChange={handlePasswordChange}
-                        />
+                    <div className="row g-3 align-items-center mb-4">
+                        <div className="col-auto">
+                            <label className="col-form-label">Password</label>
+                        </div>
+                        <div className="col-auto">
+                            <input
+                                id="password"
+                                className="form-control"
+                                type="password"
+                                value={password}
+                                name="Password"
+                                onChange={handlePasswordChange}
+                            />
+                        </div>
                     </div>
                     <Button
                         id="submit"
                         type="submit"
-                        className="btn btn-primary"
+                        className="btn btn-secondary"
                     >
                         Login
                     </Button>
+                    <Button
+                        onClick={() => setLoginVisible(false)}
+                        className="btn btn-primary"
+                    >
+                        Cancel
+                    </Button>
                 </form>
-                <Button onClick={() => setLoginVisible(false)}>Cancel</Button>
             </div>
         </div>
     )

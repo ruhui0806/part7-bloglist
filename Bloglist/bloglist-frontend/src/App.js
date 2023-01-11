@@ -110,6 +110,7 @@ const App = () => {
                 dispatch(setMessage(null))
             }, 5000)
         }
+        console.log(login)
     }
 
     const handleLogout = () => {
@@ -148,7 +149,6 @@ const App = () => {
             }, 5000)
         }
     }
-
     const SortBlogbyLikes = (a, b) => {
         return b.likes - a.likes
     }
@@ -229,7 +229,6 @@ const App = () => {
                                 addLikes={() => updateLikes(matchedBlog.id)}
                                 removeBlog={() => removeBlogof(matchedBlog.id)}
                                 setBlogs={dispatch(initializeBlogs())}
-                                login={login}
                             />
                         ) : (
                             <Navigate replace to="/" />
@@ -266,6 +265,7 @@ const App = () => {
                                 SortBlogbyLikes={SortBlogbyLikes}
                                 blogStyle={blogStyle}
                                 blogs={blogs}
+                                loginUser={login.name}
                             />
                         )
                     }

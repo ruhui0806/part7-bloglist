@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import BlogForm from './BlogForm'
 import { Link } from 'react-router-dom'
 import { FaList } from 'react-icons/fa'
+
 const BlogList = ({
     message,
     style,
@@ -14,6 +15,7 @@ const BlogList = ({
     SortBlogbyLikes,
     blogStyle,
     blogs,
+    loginUser,
 }) => (
     <div>
         <Notification message={message} style={style} />
@@ -43,20 +45,29 @@ const BlogList = ({
         </div>
         <br />
         <table className="table table-hover mt-3">
+            <tr>
+                <th>Title</th>
+                <th>Likes</th>
+            </tr>
             <tbody>
-                {[...blogs].sort(SortBlogbyLikes).map((blog) => (
-                    <tr key={blog.id}>
-                        <td>
-                            {' '}
-                            <Link
-                                className="page-link "
-                                to={`/blogs/${blog.id}`}
-                            >
-                                {blog.title}
-                            </Link>
-                        </td>
-                    </tr>
-                ))}
+                {[...blogs]
+
+                    .sort(SortBlogbyLikes)
+
+                    .map((blog) => (
+                        <tr key={blog.id}>
+                            <td>
+                                {' '}
+                                <Link
+                                    className="page-link "
+                                    to={`/blogs/${blog.id}`}
+                                >
+                                    {blog.title}
+                                </Link>
+                            </td>
+                            <td>{blog.likes}</td>
+                        </tr>
+                    ))}
             </tbody>
         </table>
     </div>

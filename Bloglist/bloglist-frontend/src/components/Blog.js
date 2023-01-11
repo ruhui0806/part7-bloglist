@@ -11,7 +11,7 @@ import {
     useMatch,
 } from 'react-router-dom'
 import blogService from '../services/blogs'
-const Blog = ({ blog, addLikes, removeBlog, setBlogs, login }) => {
+const Blog = ({ blog, addLikes, removeBlog, setBlogs }) => {
     if (!blog) {
         return null
     }
@@ -40,38 +40,48 @@ const Blog = ({ blog, addLikes, removeBlog, setBlogs, login }) => {
                 <button
                     id="like-button"
                     onClick={addLikes}
-                    className="btn btn-primary"
+                    className="btn btn-primary me-2 ms-4"
                 >
                     like
                 </button>
                 <button
                     id="delete-button"
                     onClick={removeBlog}
-                    className="btn btn-danger"
+                    className="btn btn-danger me-2"
                 >
                     Remove
                 </button>
-                <Link
-                    id="back-button"
-                    className="btn btn-light d-inline ms-auto"
-                    to="/"
-                >
-                    Back
-                </Link>
             </div>
-            <p>Added by {login.name}</p>
-            <div>
+            <p>Added by {blog.author}</p>
+
+            <div className="my-4">
                 <h3>Comments</h3>
-                <form onSubmit={() => addNewComment(event, blog.id)}>
-                    <input value={newComment} onChange={handleCommentChange} />
-                    <button type="submit">Add comment</button>
+                <form
+                    onSubmit={() => addNewComment(event, blog.id)}
+                    className=" d-flex-center"
+                >
+                    <input
+                        value={newComment}
+                        onChange={handleCommentChange}
+                        className="me-4"
+                    />
+                    <button type="submit" className="btn btn-primary">
+                        Add comment
+                    </button>
                 </form>
                 {blog.comments.map((comment) => (
-                    <div key={comment.id}>
+                    <div key={comment.id} className="mx-2">
                         <li>{comment.content}</li>
                     </div>
                 ))}
             </div>
+            <Link
+                id="back-button"
+                className="btn btn-primary d-inline ms-auto mt-4"
+                to="/"
+            >
+                Back
+            </Link>
         </div>
     )
 }
