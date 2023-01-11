@@ -33,9 +33,8 @@ const Blog = ({ blog, addLikes, removeBlog, setBlogs, login }) => {
     }
     return (
         <div>
-            <h3>Title: {blog.title}</h3>
-
-            <h4> URL: {blog.url}</h4>
+            <p>Title: {blog.title}</p>
+            <p> URL: {blog.url}</p>
             <div>
                 Likes: {blog.likes}{' '}
                 <button
