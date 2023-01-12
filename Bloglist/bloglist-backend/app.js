@@ -11,8 +11,9 @@ const loginRouter = require('./controllers/loginRouter')
 const commentRouter = require('./controllers/commentRouter')
 require('express-async-errors')
 const mongoUrl = config.MONGODB_URI
-mongoose.set('strictQuery', true)
 mongoose
+mongoose
+    .set('strictQuery', true)
     .connect(mongoUrl)
     .then(() => console.log('connected to MongoDB'))
     .catch((error) =>
