@@ -18,13 +18,11 @@ module.exports = {
     rules: {
         'react/prop-types': 'off',
         'linebreak-style': ['error', 'unix'],
-        semi: ['error', 'never'],
         eqeqeq: 'error',
         'no-trailing-spaces': 'error',
         'object-curly-spacing': ['error', 'always'],
         'arrow-spacing': ['error', { before: true, after: true }],
         'no-console': 0,
-        'react/prop-types': 0,
         'react/react-in-jsx-scope': 'off',
         'no-unused-vars': 'off',
     },
@@ -33,4 +31,4 @@ module.exports = {
             version: 'detect',
         },
     },
-}
+};

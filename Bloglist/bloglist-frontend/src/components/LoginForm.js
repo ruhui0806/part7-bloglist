@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import Notification from './Notification'
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import Notification from './Notification';
 const Button = styled.button`
     background: palevioletred;
     color: white;
@@ -9,7 +9,7 @@ const Button = styled.button`
     border: 2px solid palevioletred;
     margin: 0 1em;
     padding: 0.25em 1em;
-`
+`;
 const LoginForm = ({
     onSubmit,
     username,
@@ -29,7 +29,7 @@ const LoginForm = ({
                     id="click-to-login"
                     onClick={() => setLoginVisible(true)}
                 >
-                    Click to login
+                    Login
                 </Button>
             </div>
             <Notification message={message} style={style} />
@@ -82,11 +82,11 @@ const LoginForm = ({
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
 LoginForm.propTypes = {
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
-}
-export default LoginForm
+};
+export default LoginForm;

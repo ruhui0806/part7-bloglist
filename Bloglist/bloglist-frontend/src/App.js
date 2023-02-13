@@ -1,174 +1,191 @@
-import React, { useState, useEffect } from 'react'
-import logo from './logo.png'
-import Table from 'react-bootstrap/Table'
-import { Button } from 'react-bootstrap'
-import Blog from './components/Blog'
-import BlogList from './components/BlogList'
-import Notification from './components/Notification'
-import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm'
-import { useSelector, useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { setMessage } from './reducers/notificationReducer'
-import { BsPeopleFill } from 'react-icons/bs'
-import { IoMdDocument } from 'react-icons/io'
+import React, { useState, useEffect } from 'react';
+import logo from './logo.png';
+import { Button } from 'react-bootstrap';
+import Blog from './components/Blog';
+import BlogList from './components/BlogList';
+import LoginForm from './components/LoginForm';
+import RegistrationForm from './components/RegistrationForm';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMessage } from './reducers/notificationReducer';
+import { BsPeopleFill } from 'react-icons/bs';
+import { IoMdDocument } from 'react-icons/io';
 import {
     initializeBlogs,
-    setBlogs,
     removeBlog,
     moreLike,
     addNew,
-} from './reducers/blogReducer'
-import { setUser, logOut, loggedUser, loginUser } from './reducers/loginReducer'
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link,
-    Navigate,
-    useParams,
-    useNavigate,
-    useMatch,
-} from 'react-router-dom'
-import { setUsers, initializeUsers } from './reducers/usersReducer'
-import User from './components/User'
-import Users from './components/Users'
-import loginService from './services/login'
-import blogService from './services/blogs'
+} from './reducers/blogReducer';
+import { setUser, logOut, loggedUser } from './reducers/loginReducer';
+import { Routes, Route, Link, Navigate, useMatch } from 'react-router-dom';
+import { initializeUsers } from './reducers/usersReducer';
+import User from './components/User';
+import Users from './components/Users';
+import loginService from './services/login';
+import blogService from './services/blogs';
+import registerService from './services/register';
 
 const App = () => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [newUsername, setNewUsername] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [newName, setNewName] = useState('');
 
-    const [loginVisible, setLoginVisible] = useState(false)
-    const [blogVisible, setBlogVisible] = useState(false)
-    const [style, setStyle] = useState(null)
+    const [loginVisible, setLoginVisible] = useState(false);
+    const [registerVisible, setRegisterVisible] = useState(false);
+    const [registerMessage, setRegisterMessage] = useState('');
+    const [blogVisible, setBlogVisible] = useState(false);
+    const [style, setStyle] = useState(null);
 
-    const dispatch = useDispatch()
-    const blogs = useSelector((state) => state.blogs)
-    const message = useSelector((state) => state.message)
-    const login = useSelector((state) => state.login)
-    const usersList = useSelector((state) => state.users)
+    const dispatch = useDispatch();
+    const blogs = useSelector((state) => state.blogs);
+    const message = useSelector((state) => state.message);
+    const login = useSelector((state) => state.login);
+    const usersList = useSelector((state) => state.users);
 
     useEffect(() => {
-        dispatch(initializeBlogs())
-        dispatch(initializeUsers())
-        dispatch(loggedUser())
-    }, [dispatch])
+        dispatch(initializeBlogs());
+        dispatch(initializeUsers());
+        dispatch(loggedUser());
+    }, [dispatch]);
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
         border: 'solid',
         borderWidth: 1,
         marginBottom: 5,
-    }
+    };
     const styleRed = {
         color: 'red',
         borderStyle: 'solid',
         borderColor: 'red',
         background: 'lightgray',
         fontSize: 20,
-    }
+    };
     const styleGreen = {
         color: 'green',
         borderStyle: 'solid',
         borderColor: 'green',
         background: 'lightgray',
         fontSize: 20,
-    }
+    };
 
     const handleLogin = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         try {
             const user = await loginService.login({
                 username,
                 password,
-            })
+            });
 
-            dispatch(setUser(user))
-            blogService.setToken(user.token)
+            dispatch(setUser(user));
+            blogService.setToken(user.token);
 
             window.localStorage.setItem(
                 'loggedBlogappUser',
                 JSON.stringify(user)
-            )
+            );
 
-            setUsername('')
-            setPassword('')
-            setStyle(styleGreen)
-            dispatch(setMessage(`${user.username} logged in successfully`))
+            setUsername('');
+            setPassword('');
+            setStyle(styleGreen);
+            dispatch(setMessage(`${user.username} logged in successfully`));
 
             setTimeout(() => {
-                dispatch(setMessage(null))
-            }, 5000)
+                dispatch(setMessage(null));
+            }, 5000);
         } catch (error) {
-            setStyle(styleRed)
+            setStyle(styleRed);
 
-            dispatch(setMessage('Wrong username or password'))
+            dispatch(setMessage('Wrong username or password'));
             setTimeout(() => {
-                dispatch(setMessage(null))
-            }, 5000)
+                dispatch(setMessage(null));
+            }, 5000);
         }
-        console.log(login)
-    }
+        console.log(login);
+    };
 
     const handleLogout = () => {
-        dispatch(logOut())
-        window.localStorage.removeItem('loggedBlogappUser')
-    }
-
+        dispatch(logOut());
+        window.localStorage.removeItem('loggedBlogappUser');
+    };
+    const handleRegister = async (event) => {
+        event.preventDefault();
+        try {
+            const newUser = await registerService.register({
+                username: newUsername,
+                password: newPassword,
+                name: newName,
+            });
+            setNewUsername('');
+            setNewPassword('');
+            setRegisterVisible(false);
+            setStyle(styleGreen);
+            setRegisterMessage('Signed up successfully');
+            setTimeout(() => {
+                setRegisterMessage(null);
+            }, 1000);
+            return newUser;
+        } catch (error) {
+            setStyle(styleRed);
+            setRegisterMessage('Something went wrong');
+            setTimeout(() => {
+                setRegisterMessage(null);
+            }, 1000);
+        }
+    };
     const addBlog = (blogObject) => {
-        dispatch(addNew(blogObject))
-    }
+        dispatch(addNew(blogObject));
+    };
 
     const addBlogNotification = (blogObject) => {
         dispatch(
             setMessage(`a new blog ${blogObject.title} by ${blogObject.author}`)
-        )
+        );
         setTimeout(() => {
-            dispatch(setMessage(null))
-        }, 5000)
-    }
+            dispatch(setMessage(null));
+        }, 1000);
+    };
 
     const updateLikes = (id) => {
-        dispatch(moreLike(id))
-    }
+        dispatch(moreLike(id));
+    };
 
     const removeBlogof = (id) => {
-        const blog = blogs.find((blog) => blog.id === id)
+        const blog = blogs.find((blog) => blog.id === id);
         if (window.confirm(`Delete ${blog.title} ?`)) {
             dispatch(removeBlog(id)).then(
                 dispatch(
                     setMessage(`Remove blog ${blog.title} by ${blog.author}`)
                 )
-            )
-            setStyle(styleGreen)
+            );
+            setStyle(styleGreen);
             setTimeout(() => {
-                dispatch(setMessage(null))
-            }, 5000)
+                dispatch(setMessage(null));
+            }, 1000);
         }
-    }
+    };
     const SortBlogbyLikes = (a, b) => {
-        return b.likes - a.likes
-    }
+        return b.likes - a.likes;
+    };
 
-    const matchU = useMatch('/users/:id')
+    const matchU = useMatch('/users/:id');
 
     const matchedUser = matchU
         ? usersList.find(
               (matchedUser) =>
                   String(matchedUser.id) === String(matchU.params.id)
           )
-        : null
+        : null;
 
-    const matchB = useMatch('/blogs/:id')
+    const matchB = useMatch('/blogs/:id');
     const matchedBlog = matchB
         ? blogs.find(
               (matchedBlog) =>
                   String(matchedBlog.id) === String(matchB.params.id)
           )
-        : null
+        : null;
 
     return (
         <div className="container">
@@ -239,21 +256,42 @@ const App = () => {
                     path="/"
                     element={
                         login === null ? (
-                            <LoginForm
-                                onSubmit={handleLogin}
-                                username={username}
-                                password={password}
-                                handleUsernameChange={(event) =>
-                                    setUsername(event.target.value)
-                                }
-                                handlePasswordChange={({ target }) =>
-                                    setPassword(target.value)
-                                }
-                                loginVisible={loginVisible}
-                                setLoginVisible={setLoginVisible}
-                                message={message}
-                                style={style}
-                            />
+                            <div>
+                                <LoginForm
+                                    onSubmit={handleLogin}
+                                    username={username}
+                                    password={password}
+                                    handleUsernameChange={(event) =>
+                                        setUsername(event.target.value)
+                                    }
+                                    handlePasswordChange={({ target }) =>
+                                        setPassword(target.value)
+                                    }
+                                    loginVisible={loginVisible}
+                                    setLoginVisible={setLoginVisible}
+                                    message={message}
+                                    style={style}
+                                />
+                                <RegistrationForm
+                                    onSubmit={handleRegister}
+                                    newUserName={newUsername}
+                                    newPassword={newPassword}
+                                    newName={newName}
+                                    handleNewNameChange={(event) =>
+                                        setNewName(event.target.value)
+                                    }
+                                    handleNewUserNameChange={(event) =>
+                                        setNewUsername(event.target.value)
+                                    }
+                                    handleNewPasswordChange={({ target }) =>
+                                        setNewPassword(target.value)
+                                    }
+                                    registerVisible={registerVisible}
+                                    setRegisterVisible={setRegisterVisible}
+                                    message={registerMessage}
+                                    style={style}
+                                />
+                            </div>
                         ) : (
                             <BlogList
                                 message={message}
@@ -272,7 +310,7 @@ const App = () => {
                 />
             </Routes>
         </div>
-    )
-}
+    );
+};
 
-export default App
+export default App;

@@ -1,20 +1,9 @@
-import React from 'react'
-import Table from 'react-bootstrap/Table'
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link,
-    Navigate,
-    useParams,
-    useNavigate,
-    useMatch,
-} from 'react-router-dom'
-const Users = ({ login, handleLogout, usersList }) => {
+import React from 'react';
+import Table from 'react-bootstrap/Table';
+import { Link } from 'react-router-dom';
+const Users = ({ usersList }) => {
     return (
         <div>
-            {/* <p> {login.name} logged in</p> */}
-            {/* <button onClick={handleLogout}>log out</button> */}
             <h3>Users</h3>
             <Table striped bordered hover>
                 <thead>
@@ -38,7 +27,7 @@ const Users = ({ login, handleLogout, usersList }) => {
                 </tbody>
             </Table>
         </div>
-    )
-}
+    );
+};
 
-export default Users
+export default Users;
