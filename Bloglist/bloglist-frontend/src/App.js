@@ -101,7 +101,7 @@ const App = () => {
             dispatch(setMessage('Wrong username or password'));
             setTimeout(() => {
                 dispatch(setMessage(null));
-            }, 5000);
+            }, 1000);
         }
         console.log(login);
     };
@@ -129,7 +129,7 @@ const App = () => {
             return newUser;
         } catch (error) {
             setStyle(styleRed);
-            setRegisterMessage('Something went wrong');
+            setRegisterMessage(' New username or password is too short');
             setTimeout(() => {
                 setRegisterMessage(null);
             }, 1000);
