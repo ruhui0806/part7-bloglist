@@ -256,8 +256,9 @@ const App = () => {
                     path="/"
                     element={
                         login === null ? (
-                            <div>
+                            <div className="d-flex gap-3 mb-4 fluid">
                                 <LoginForm
+                                    className="form"
                                     onSubmit={handleLogin}
                                     username={username}
                                     password={password}
@@ -273,6 +274,7 @@ const App = () => {
                                     style={style}
                                 />
                                 <RegistrationForm
+                                    className="form"
                                     onSubmit={handleRegister}
                                     newUserName={newUsername}
                                     newPassword={newPassword}

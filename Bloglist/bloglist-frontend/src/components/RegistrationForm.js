@@ -27,13 +27,13 @@ const RegistrationForm = ({
 }) => {
     return (
         <div>
-            <h2>Register for free</h2>
+            <h2>Sign up (The app is ready for sign up!)</h2>
             <div style={{ display: registerVisible ? 'none' : '' }}>
                 <Button
                     id="click-to-register"
                     onClick={() => setRegisterVisible(true)}
                 >
-                    Register
+                    Sign up
                 </Button>
             </div>
             <Notification message={message} style={style} />
@@ -96,7 +96,7 @@ const RegistrationForm = ({
                         type="submit"
                         className="btn btn-secondary"
                     >
-                        Register
+                        Sign up
                     </Button>
                     <Button
                         onClick={() => setRegisterVisible(false)}
