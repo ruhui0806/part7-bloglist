@@ -5,27 +5,11 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 require('express-async-errors')
 
-// blogRouter.get('/info', (request, response) => {
-//     Blog
-//     .find({})
-//     .then(() => {
-//       response.send('</h1>This is blogList backend</h1>')
-//     })
-//   })
-
-// blogRouter.get('/', (request, response) => {
-//     Blog
-//         .find({})
-//         .then(blogs => {
-//             response.json(blogs)
-//         })
-// })
 ////refactor to async-await:
 blogRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
         .populate('user', { username: 1 })
         .populate('comments')
-    // const blogs = await Blog.find({}).populate('user', 'username name')
     response.json(blogs)
 })
 
@@ -38,24 +22,6 @@ blogRouter.get('/:id', async (request, response) => {
     }
 })
 
-// const getTokenFrom = (request) => {
-//     const authorization = request.get('authorization')
-//     if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-//         return authorization.substring(7)
-//     }
-//     return null
-// }
-
-// blogRouter.post('/', (request, response) => {
-//     const blog = new Blog(request.body)
-
-//     blog
-//         .save()
-//         .then(result => {
-//             response.status(201).json(result)
-//         })
-// })
-////refactor to async-await:
 
 blogRouter.post('/', async (request, response) => {
     const body = request.body
